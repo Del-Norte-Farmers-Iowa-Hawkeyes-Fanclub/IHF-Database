@@ -1,6 +1,7 @@
 package com.nighthawk.spring_portfolio.mvc.character;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,8 +17,10 @@ public class Character {
     private String name;
     private Integer age;
     private Boolean basketball;
+    private static final AtomicLong idGenerator = new AtomicLong(1);
 
     public Character(Double weight, Double height, Integer cash, String name, Integer age, Boolean basketball) {
+        this.id = idGenerator.getAndIncrement();
         this.weight = weight;
         this.height = height;
         this.cash = cash;
@@ -62,8 +65,8 @@ public class Character {
         return name;
     }
     public static String generateName(){
-        String[] firstNames = {"John", "Jane", "Michael", "Emily", "William", "Emma"};
-        String[] lastNames = {"Smith", "Johnson", "Williams", "Jones", "Brown", "Davis"};
+        String[] firstNames = {"Jimmy", "Kobe", "Shaq", "Chris", "Ja", "LeBron", "DeMarcus", "Anthony", "Klay", "Carmelo"};
+        String[] lastNames = {"Paul", "Bryant", "Thompson", "James", "Morant", "Davis", "Cousins", "Butler", "Edwards", "Anthony"};
 
         Random random = new Random();
         String generatedFirstName = firstNames[random.nextInt(firstNames.length)];
@@ -93,4 +96,4 @@ public class Character {
         System.out.println(c1);
     }
 
-}
+} 
