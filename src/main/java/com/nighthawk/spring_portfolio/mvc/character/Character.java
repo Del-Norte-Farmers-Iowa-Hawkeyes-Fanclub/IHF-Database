@@ -75,8 +75,22 @@ public class Character {
     public void setName(String newName) {
         this.name = newName;
     }
+    @Override
+    public String toString() {
+        return "Character{" +
+                "id=" + id +
+                ", weight=" + weight +
+                ", height=" + height +
+                ", cash=" + cash +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", basketball=" + basketball +
+                '}';
+    }
+
     public static void main(String[] args){
         Character c1 = new Character(generateWeight(), generateHeight(), 0, generateName(), 0, false);
+        System.out.println(c1);
     }
 
 }
