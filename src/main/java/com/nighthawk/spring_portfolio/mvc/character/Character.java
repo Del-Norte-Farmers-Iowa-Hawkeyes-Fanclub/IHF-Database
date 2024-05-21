@@ -3,10 +3,12 @@ package com.nighthawk.spring_portfolio.mvc.character;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+@Entity
 public class Character {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,6 +21,9 @@ public class Character {
     private Boolean basketball;
     private static final AtomicLong idGenerator = new AtomicLong(1);
 
+    public Character() {
+    }
+
     public Character(Double weight, Double height, Integer cash, String name, Integer age, Boolean basketball) {
         this.id = idGenerator.getAndIncrement();
         this.weight = weight;
@@ -28,6 +33,7 @@ public class Character {
         this.age = age;
         this.basketball = basketball;
     }
+
     public int getAge(){
         return age;
     }
