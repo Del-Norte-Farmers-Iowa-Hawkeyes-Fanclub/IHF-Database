@@ -111,6 +111,31 @@ public class PersonDetailsService implements UserDetailsService { // "implements
         }
     }
 
+    /* Methods for managing integerMap */
+    public void setIntegerMap(long id, Map<String, Integer> integerMap) {
+        Person person = personJpaRepository.findById(id).orElse(null);
+        if (person != null) {
+            person.setIntegerMap(integerMap);
+            personJpaRepository.save(person);
+        }
+    }
+
+    public Map<String, Integer> getIntegerMap(long id) {
+        Person person = personJpaRepository.findById(id).orElse(null);
+        if (person != null) {
+            return person.getIntegerMap();
+        }
+        return null;
+    }
+
+    public void deleteIntegerMap(long id) {
+        Person person = personJpaRepository.findById(id).orElse(null);
+        if (person != null) {
+            person.setIntegerMap(null);
+            personJpaRepository.save(person);
+        }
+    }
+
     public int getEco(long id) {
         Person person = get(id);
         if (person != null) {

@@ -90,6 +90,9 @@ public class Person {
         this.password = password;
         this.name = name;
         this.dob = dob;
+        this.cash = 0;
+        this.eco = 0;
+        this.primaryCrop = "corn";
     }
 
     public int getAge() {
