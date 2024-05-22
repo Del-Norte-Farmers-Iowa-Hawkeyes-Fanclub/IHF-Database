@@ -134,7 +134,74 @@ public class Person {
         } catch (Exception e) {
         }
 
-        Person persons[] = { p1, p2 };
+        Person p3 = new Person();
+        p3.setName("Thomas Edison");
+        p3.setEmail("toby@gmail.com");
+        p3.setPassword("123Toby!");
+        p3.setPrimaryCrop("corn");
+        p3.getIntegerMap().put("Team 1", 1);
+        p3.getIntegerMap().put("Team 2", 40);
+        // adding Note to notes collection
+        try { // All data that converts formats could fail
+            Date d = new SimpleDateFormat("MM-dd-yyyy").parse("01-01-1840");
+            p3.setDob(d);
+        } catch (Exception e) {
+            // no actions as dob default is good enough
+        }
+
+        Person p4 = new Person();
+        p4.setName("Tester Testing");
+        p4.setEmail("test@gmail.com");
+        p4.setPassword("password");
+        p4.setPrimaryCrop("corn");
+        p4.getIntegerMap().put("Team 3", 2);
+        p4.getIntegerMap().put("Team 4", 100);
+        try {
+            Date d = new SimpleDateFormat("MM-dd-yyyy").parse("01-01-1845");
+            p4.setDob(d);
+        } catch (Exception e) {
+        }
+
+        Person p5 = new Person();
+        p5.setName("Nikola Tesla");
+        p5.setEmail("niko@gmail.com");
+        p5.setPassword("123Niko!");
+        p5.setPrimaryCrop("corn");
+        p5.getIntegerMap().put("Team 6", 60);
+        p5.getIntegerMap().put("Team 5", 30);
+        try {
+            Date d = new SimpleDateFormat("MM-dd-yyyy").parse("01-01-1850");
+            p5.setDob(d);
+        } catch (Exception e) {
+        }
+
+        Person p6 = new Person();
+        p6.setName("Madam Currie");
+        p6.setEmail("madam@gmail.com");
+        p6.setPassword("123Madam!");
+        p6.setPrimaryCrop("corn");
+        p6.getIntegerMap().put("Team 8", 120);
+        p6.getIntegerMap().put("Team 9", 203);
+        try {
+            Date d = new SimpleDateFormat("MM-dd-yyyy").parse("01-01-1860");
+            p6.setDob(d);
+        } catch (Exception e) {
+        }
+
+        Person p7 = new Person();
+        p7.setName("John Mortensen");
+        p7.setEmail("jm1021@gmail.com");
+        p7.setPassword("123Qwerty!");
+        p7.setPrimaryCrop("corn");
+        p7.getIntegerMap().put("Team 91", 808);
+        p7.getIntegerMap().put("Easter Egg", 90210);
+        try {
+            Date d = new SimpleDateFormat("MM-dd-yyyy").parse("10-21-1959");
+            p7.setDob(d);
+        } catch (Exception e) {
+        }
+
+        Person persons[] = { p1, p2, p3, p4, p5, p6, p7 };
         return persons;
     }
 
