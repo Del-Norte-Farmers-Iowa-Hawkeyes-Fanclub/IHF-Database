@@ -4,7 +4,7 @@ services:
     image: ihf_database
     build: .
     ports:
-      - "6666:6666"
+      - "8012:8012"
     volumes:
        - ./volumes:/volumes
     restart: unless-stopped
