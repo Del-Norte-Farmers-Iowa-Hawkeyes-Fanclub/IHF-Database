@@ -164,7 +164,8 @@ public class PersonApiController {
         String email = (String) requestBody.get("email");
         Person player = personDetailsService.getByEmail(email);
         System.out.println(player.getCash());
-        System.out.println("aksdjfhaslkdjfhaslkjdhalkjsdfhakjsdhflikjudshfkljasdhfkljashdfkjlahsdkfljhasdlkjfhalskjdhfalksjdhflkjasdhf");
+        System.out.println(
+                "aksdjfhaslkdjfhaslkjdhalkjsdfhakjsdhflikjudshfkljasdhfkljashdfkjlahsdkfljhasdlkjfhalskjdhfalksjdhflkjasdhf");
         int cash = (player != null) ? player.getCash() : 0;
         System.out.println(player.getCash());
         return new ResponseEntity<>(cash, HttpStatus.OK);
@@ -178,5 +179,44 @@ public class PersonApiController {
         personDetailsService.changeCash(email, cash);
 
         return new ResponseEntity<>(email + " is updated successfully", HttpStatus.CREATED);
+    }
+
+    @PostMapping("/integerMap/update/{id}")
+    public ResponseEntity<String> updateIntegerMap(@PathVariable long id,
+            @RequestBody Map<String, Integer> integerMap) {
+        Optional<Person> optional = repository.findById(id);
+        if (optional.isPresent()) {
+            Person person = optional.get();
+            Map<String, Integer> existingIntegerMap = person.getIntegerMap();
+            existingIntegerMap.putAll(integerMap);
+            person.setIntegerMap(existingIntegerMap);
+            repository.save(person);
+            return new ResponseEntity<>("Additional key-value pairs added to the integerMap for person with ID: " + id,
+                    HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Person not found with ID: " + id, HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/integerMap/{id}")
+    public ResponseEntity<Map<String, Integer>> getIntegerMap(@PathVariable long id) {
+        Optional<Person> optional = repository.findById(id);
+        if (optional.isPresent()) {
+            Person person = optional.get();
+            Map<String, Integer> integerMap = person.getIntegerMap();
+            return new ResponseEntity<>(integerMap, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("integerMap/delete/{id}")
+    public ResponseEntity<String> deleteIntegerMap(@PathVariable long id) {
+        Optional<Person> optional = repository.findById(id);
+        if (optional.isPresent()) {
+            Person person = optional.get();
+            person.setIntegerMap(new HashMap<>());
+            repository.save(person);
+            return new ResponseEntity<>("IntegerMap deleted successfully for person with ID: " + id, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Person not found with ID: " + id, HttpStatus.NOT_FOUND);
     }
 }

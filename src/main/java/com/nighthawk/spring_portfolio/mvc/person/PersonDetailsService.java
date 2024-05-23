@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 // PURPOSE: Retrieve user details based on username
 
@@ -108,6 +109,31 @@ public class PersonDetailsService implements UserDetailsService { // "implements
                     person.getRoles().add(role);
                 }
             }
+        }
+    }
+
+    /* Methods for managing integerMap */
+    public void setIntegerMap(long id, Map<String, Integer> integerMap) {
+        Person person = personJpaRepository.findById(id).orElse(null);
+        if (person != null) {
+            person.setIntegerMap(integerMap);
+            personJpaRepository.save(person);
+        }
+    }
+
+    public Map<String, Integer> getIntegerMap(long id) {
+        Person person = personJpaRepository.findById(id).orElse(null);
+        if (person != null) {
+            return person.getIntegerMap();
+        }
+        return null;
+    }
+
+    public void deleteIntegerMap(long id) {
+        Person person = personJpaRepository.findById(id).orElse(null);
+        if (person != null) {
+            person.setIntegerMap(null);
+            personJpaRepository.save(person);
         }
     }
 
