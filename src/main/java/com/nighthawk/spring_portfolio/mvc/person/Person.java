@@ -138,6 +138,8 @@ public class Person {
         p3.setName("Thomas Edison");
         p3.setEmail("toby@gmail.com");
         p3.setPassword("123Toby!");
+        p3.setEco(0);
+        p3.setCash(0);
         p3.setPrimaryCrop("corn");
         p3.getIntegerMap().put("Team 1", 1);
         p3.getIntegerMap().put("Team 2", 40);
@@ -153,6 +155,8 @@ public class Person {
         p4.setName("Tester Testing");
         p4.setEmail("test@gmail.com");
         p4.setPassword("password");
+        p4.setEco(0);
+        p4.setCash(0);
         p4.setPrimaryCrop("corn");
         p4.getIntegerMap().put("Team 3", 2);
         p4.getIntegerMap().put("Team 4", 100);
@@ -167,6 +171,8 @@ public class Person {
         p5.setEmail("niko@gmail.com");
         p5.setPassword("123Niko!");
         p5.setPrimaryCrop("corn");
+        p5.setEco(0);
+        p5.setCash(0);
         p5.getIntegerMap().put("Team 6", 60);
         p5.getIntegerMap().put("Team 5", 30);
         try {
@@ -180,6 +186,8 @@ public class Person {
         p6.setEmail("madam@gmail.com");
         p6.setPassword("123Madam!");
         p6.setPrimaryCrop("corn");
+        p6.setEco(0);
+        p6.setCash(0);
         p6.getIntegerMap().put("Team 8", 120);
         p6.getIntegerMap().put("Team 9", 203);
         try {
@@ -193,6 +201,8 @@ public class Person {
         p7.setEmail("jm1021@gmail.com");
         p7.setPassword("123Qwerty!");
         p7.setPrimaryCrop("corn");
+        p7.setEco(0);
+        p7.setCash(0);
         p7.getIntegerMap().put("Team 91", 808);
         p7.getIntegerMap().put("Easter Egg", 90210);
         try {
