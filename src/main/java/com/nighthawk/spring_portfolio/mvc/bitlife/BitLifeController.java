@@ -16,6 +16,11 @@ public class BitLifeController {
         return bitLifeService.getEvent(id);
     }
 
+    @GetMapping("/events")
+    public List<Event> getAllEvents() {
+        return bitLifeService.getAllEvents();
+    }
+
     @PostMapping("/event")
     public Event createEvent(@RequestBody Event event) {
         return bitLifeService.createEvent(event);
