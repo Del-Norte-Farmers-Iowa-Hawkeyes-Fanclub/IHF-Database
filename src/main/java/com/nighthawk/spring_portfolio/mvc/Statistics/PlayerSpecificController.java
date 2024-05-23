@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,12 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/nba")
-@CrossOrigin(origins = { "http://localhost:4200", "https://jishnus420.github.io", "http://127.0.0.1:4000",
-        "https://pitsco.github.io", })
+@CrossOrigin(origins = {"http://localhost:4200", "https://jishnus420.github.io", "http://127.0.0.1:4000", "https://pitsco.github.io"})
 public class PlayerSpecificController {
     private JSONObject body;
     private HttpStatus status;
-    String lastRun = null;
+    private String lastRun = null;
+    private final String API_KEY = "f8073004-09ea-475c-840b-380354e78ae5";
 
     @GetMapping("/players")
     public ResponseEntity<JSONObject> getNBAPlayers() {
@@ -33,21 +34,23 @@ public class PlayerSpecificController {
             try {
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create("https://api.balldontlie.io/v1/players"))
-                        .method("GET", HttpRequest.BodyPublishers.noBody())
+                        .header("Authorization", API_KEY)
+                        .GET()
                         .build();
 
                 HttpResponse<String> response = HttpClient.newHttpClient().send(request,
                         HttpResponse.BodyHandlers.ofString());
 
-                // JSONParser extracts text body and sets it as a string in the JSONObject
-                this.body = new JSONObject();
-                this.body.put("data", response.body());
+                // Parse response body to JSONObject
+                JSONParser parser = new JSONParser();
+                JSONObject responseBody = (JSONObject) parser.parse(response.body());
 
+                this.body = responseBody;
                 this.status = HttpStatus.OK;
                 this.lastRun = today;
             } catch (Exception e) {
                 HashMap<String, String> status = new HashMap<>();
-                status.put("status", "NBA API failure: " + e);
+                status.put("status", "NBA API failure: " + e.getMessage());
 
                 // Setup object for error
                 this.body = new JSONObject(status);
@@ -61,12 +64,13 @@ public class PlayerSpecificController {
     @GetMapping("/players/{id}")
     public ResponseEntity<String> getNBAPlayerById(@PathVariable Long id) {
         // Construct the API URL with the player ID
-        String apiUrl = "https://www.balldontlie.io/api/v1/players/" + id;
+        String apiUrl = "https://api.balldontlie.io/v1/players/" + id;
 
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(apiUrl))
-                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .header("Authorization", API_KEY)
+                    .GET()
                     .build();
 
             HttpResponse<String> response = HttpClient.newHttpClient().send(request,
@@ -76,7 +80,7 @@ public class PlayerSpecificController {
             return new ResponseEntity<>(response.body(), HttpStatus.OK);
         } catch (Exception e) {
             HashMap<String, String> errorStatus = new HashMap<>();
-            errorStatus.put("status", "NBA API failure: " + e);
+            errorStatus.put("status", "NBA API failure: " + e.getMessage());
 
             // Setup object for error
             JSONObject errorBody = new JSONObject(errorStatus);
