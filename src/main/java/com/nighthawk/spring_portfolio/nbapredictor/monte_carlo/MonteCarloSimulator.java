@@ -64,6 +64,9 @@ public class MonteCarloSimulator {
 
     private double calculateFantasyPoints(Player player) {
         PlayerStats stats = player.getStats();
+        if (stats == null) {
+            return 0;  // Or handle it in an appropriate way
+        }
         return stats.getPoints() * 1.0 + stats.getRebounds() * 1.2 + stats.getAssists() * 1.5;
     }
 
