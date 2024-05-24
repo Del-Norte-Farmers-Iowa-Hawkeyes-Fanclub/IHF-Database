@@ -13,30 +13,26 @@ public class MonteCarloSimulator {
     public Map<String, Double[]> simulateFantasyPoints(GameTeams teamsData) {
         double standardDeviation = calculateStandardDeviation(teamsData);
         double meanFantasyPoints = calculateMeanFantasyPoints(teamsData);
-    
-        int numberOfSimulations = 20; // Change to 20 simulations
+
+        int numberOfSimulations = 20;
         List<Double> projectedFantasyPointsA = new ArrayList<>();
         List<Double> projectedFantasyPointsB = new ArrayList<>();
-    
-        // Perform Monte Carlo simulations
+
         for (int i = 0; i < numberOfSimulations; i++) {
             double[] fantasyPoints = simulateFantasyPoints(meanFantasyPoints, standardDeviation);
             projectedFantasyPointsA.add(fantasyPoints[0]);
             projectedFantasyPointsB.add(fantasyPoints[1]);
         }
-    
-        // Calculate average projections for each team
+
         double averageProjectionA = calculateAverage(projectedFantasyPointsA);
         double averageProjectionB = calculateAverage(projectedFantasyPointsB);
-    
-        // Prepare response map
+
         Map<String, Double[]> response = new HashMap<>();
         response.put("projectedFantasyPointsTeamA", new Double[] { averageProjectionA });
         response.put("projectedFantasyPointsTeamB", new Double[] { averageProjectionB });
-    
+
         return response;
     }
-    
 
     private double calculateStandardDeviation(GameTeams teamsData) {
         double sum = 0;
@@ -65,7 +61,7 @@ public class MonteCarloSimulator {
     private double calculateFantasyPoints(Player player) {
         PlayerStats stats = player.getStats();
         if (stats == null) {
-            return 0;  // Or handle it in an appropriate way
+            return 20 + (30 - 20) * random.nextDouble();  // Return random number between 20 and 30
         }
         return stats.getPoints() * 1.0 + stats.getRebounds() * 1.2 + stats.getAssists() * 1.5;
     }

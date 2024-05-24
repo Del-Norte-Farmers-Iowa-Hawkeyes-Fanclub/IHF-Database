@@ -4,6 +4,10 @@ public class Player {
     private String name;
     private PlayerStats stats;
 
+    public Player() {
+        this.stats = new PlayerStats();  // Initialize stats to avoid null
+    }
+
     // Getters and setters
     public String getName() {
         return name;
