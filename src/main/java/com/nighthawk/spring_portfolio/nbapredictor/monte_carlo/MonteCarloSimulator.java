@@ -42,7 +42,9 @@ public class MonteCarloSimulator {
         allPlayers.addAll(teamsData.getTeamB());
 
         for (Player player : allPlayers) {
-            sum += calculateFantasyPoints(player);
+            double fantasyPoints = calculateFantasyPoints(player);
+            System.out.println("Player: " + player.getName() + ", Fantasy Points: " + fantasyPoints);
+            sum += fantasyPoints;
             totalPlayers++;
         }
 
@@ -61,9 +63,15 @@ public class MonteCarloSimulator {
     private double calculateFantasyPoints(Player player) {
         PlayerStats stats = player.getStats();
         if (stats == null) {
-            return 20 + (30 - 20) * random.nextDouble();  // Return random number between 20 and 30
+            double randomValue = 20 + (30 - 20) * random.nextDouble();
+            System.out.println("Player: " + player.getName() + ", Random Value: " + randomValue);
+            return randomValue;  // Return random number between 20 and 30
         }
-        return stats.getPoints() * 1.0 + stats.getRebounds() * 1.2 + stats.getAssists() * 1.5;
+        double points = stats.getPoints();
+        double rebounds = stats.getRebounds();
+        double assists = stats.getAssists();
+        System.out.println("Player: " + player.getName() + ", Points: " + points + ", Rebounds: " + rebounds + ", Assists: " + assists);
+        return points * 1.0 + rebounds * 1.2 + assists * 1.5;
     }
 
     private double[] simulateFantasyPoints(double mean, double standardDeviation) {
