@@ -145,6 +145,14 @@ public class PersonDetailsService implements UserDetailsService { // "implements
         return 0;
     }
 
+    public int getCropQuantity(long id) {
+        Person person = get(id);
+        if (person != null) {
+            return person.getCropQuantity();
+        }
+        return 0;
+    }
+
     public void changeEco(String email, int eco) {
         Person player = personJpaRepository.findByEmail(email);
         int currentEco = player.getEco();
@@ -165,6 +173,13 @@ public class PersonDetailsService implements UserDetailsService { // "implements
         int currentCash = player.getCash();
         int newCash = currentCash + cash;
         player.setCash(newCash);
+    }
+
+    public void changeCropQuantity(String email, int cropQuantity) {
+        Person player = personJpaRepository.findByEmail(email);
+        int currentCropQuantity = player.getCropQuantity();
+        int newCropQuantity = currentCropQuantity + cropQuantity;
+        player.setCropQuantity(newCropQuantity);
     }
 
     /* Roles Section */

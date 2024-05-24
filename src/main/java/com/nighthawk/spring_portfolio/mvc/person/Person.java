@@ -57,6 +57,8 @@ public class Person {
 
     private Integer cash;
 
+    private Integer cropQuantity;
+
     @NonNull
     @Size(min = 2, max = 30, message = "Name (2 to 30 chars)")
     private String name;
@@ -82,6 +84,7 @@ public class Person {
         this.eco = eco;
         this.primaryCrop = primaryCrop;
         this.cash = cash;
+        this.cropQuantity = 0;
         this.dob = dob;
     }
 
@@ -92,6 +95,7 @@ public class Person {
         this.dob = dob;
         this.cash = 0;
         this.eco = 0;
+        this.cropQuantity = 0;
         this.primaryCrop = "corn";
     }
 
@@ -109,6 +113,7 @@ public class Person {
         p1.setEmail("mirzahbeg123@gmail.com");
         p1.setPassword("notTellingYouLOL");
         p1.setEco(-5);
+        p1.setCropQuantity(0);
         p1.setPrimaryCrop("corn");
         p1.setCash(52);
         p1.getIntegerMap().put("Team 1", 1);
@@ -125,6 +130,7 @@ public class Person {
         p2.setPassword("iLOVEagricutlre");
         p2.setEco(8);
         p2.setCash(14);
+        p2.setCropQuantity(0);
         p2.setPrimaryCrop("corn");
         p2.getIntegerMap().put("Team 1", 1);
         p2.getIntegerMap().put("Team 2", 40);
@@ -138,6 +144,7 @@ public class Person {
         p3.setName("Thomas Edison");
         p3.setEmail("toby@gmail.com");
         p3.setPassword("123Toby!");
+        p3.setCropQuantity(0);
         p3.setEco(0);
         p3.setCash(0);
         p3.setPrimaryCrop("corn");
@@ -157,6 +164,7 @@ public class Person {
         p4.setPassword("password");
         p4.setEco(0);
         p4.setCash(0);
+        p4.setCropQuantity(0);
         p4.setPrimaryCrop("corn");
         p4.getIntegerMap().put("Team 3", 2);
         p4.getIntegerMap().put("Team 4", 100);
@@ -173,6 +181,7 @@ public class Person {
         p5.setPrimaryCrop("corn");
         p5.setEco(0);
         p5.setCash(0);
+        p5.setCropQuantity(0);
         p5.getIntegerMap().put("Team 6", 60);
         p5.getIntegerMap().put("Team 5", 30);
         try {
@@ -188,6 +197,7 @@ public class Person {
         p6.setPrimaryCrop("corn");
         p6.setEco(0);
         p6.setCash(0);
+        p6.setCropQuantity(0);
         p6.getIntegerMap().put("Team 8", 120);
         p6.getIntegerMap().put("Team 9", 203);
         try {
@@ -203,6 +213,7 @@ public class Person {
         p7.setPrimaryCrop("corn");
         p7.setEco(0);
         p7.setCash(0);
+        p7.setCropQuantity(0);
         p7.getIntegerMap().put("Team 91", 808);
         p7.getIntegerMap().put("Easter Egg", 90210);
         try {
