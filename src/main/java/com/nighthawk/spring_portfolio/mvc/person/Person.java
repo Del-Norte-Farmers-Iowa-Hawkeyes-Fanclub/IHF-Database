@@ -77,6 +77,10 @@ public class Person {
     @Column(columnDefinition = "jsonb")
     private Map<String, Integer> integerMap = new HashMap<>();
 
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private MapData mapData = new MapData();
+
     public Person(String email, String password, String name, Integer eco, String primaryCrop, Integer cash, Date dob) {
         this.email = email;
         this.password = password;
