@@ -6,10 +6,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.google.gson.JsonObject;
+import com.nighthawk.spring_portfolio.mvc.person.MapData.Layer;
+import com.nighthawk.spring_portfolio.mvc.person.MapData.Tileset;
+
 import java.util.*;
 import java.text.SimpleDateFormat;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/person")
@@ -247,5 +249,101 @@ public class PersonApiController {
             return new ResponseEntity<>("IntegerMap deleted successfully for person with ID: " + id, HttpStatus.OK);
         }
         return new ResponseEntity<>("Person not found with ID: " + id, HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/mapData/update/{email}")
+    public ResponseEntity<String> updateMapData(@PathVariable String email,
+            @RequestBody Map<String, Object> requestBody) {
+        // Extract mapData from the requestBody
+        Map<String, Object> mapDataMap = (Map<String, Object>) requestBody.get("mapData");
+
+        // Create MapData object from mapDataMap
+        MapData mapData = new MapData();
+        mapData.setCompressionlevel((int) mapDataMap.get("compressionlevel"));
+        mapData.setHeight((int) mapDataMap.get("height"));
+        mapData.setInfinite((boolean) mapDataMap.get("infinite"));
+        mapData.setNextlayerid((int) mapDataMap.get("nextlayerid"));
+        mapData.setNextobjectid((int) mapDataMap.get("nextobjectid"));
+        mapData.setOrientation((String) mapDataMap.get("orientation"));
+        mapData.setRenderorder((String) mapDataMap.get("renderorder"));
+        mapData.setTiledversion((String) mapDataMap.get("tiledversion"));
+        mapData.setTileheight((int) mapDataMap.get("tileheight"));
+        mapData.setTilewidth((int) mapDataMap.get("tilewidth"));
+        mapData.setType((String) mapDataMap.get("type"));
+        mapData.setVersion((String) mapDataMap.get("version"));
+        mapData.setWidth((int) mapDataMap.get("width"));
+
+        // Extract layers
+        List<Map<String, Object>> layersMapList = (List<Map<String, Object>>) mapDataMap.get("layers");
+        List<Layer> layers = new ArrayList<>();
+        for (Map<String, Object> layerMap : layersMapList) {
+            Layer layer = new Layer();
+            layer.setHeight((int) layerMap.get("height"));
+            layer.setId((int) layerMap.get("id"));
+            layer.setName((String) layerMap.get("name"));
+            layer.setOpacity((double) layerMap.get("opacity"));
+            layer.setType((String) layerMap.get("type"));
+            layer.setVisible((boolean) layerMap.get("visible"));
+            layer.setWidth((int) layerMap.get("width"));
+            layer.setX((int) layerMap.get("x"));
+            layer.setY((int) layerMap.get("y"));
+
+            // Ensure data is correctly casted to List<Integer>
+            Object dataObj = layerMap.get("data");
+            if (dataObj instanceof List) {
+                // Safe cast to List<Integer>
+                List<?> dataList = (List<?>) dataObj;
+                List<Integer> data = new ArrayList<>();
+                for (Object item : dataList) {
+                    if (item instanceof Integer) {
+                        data.add((Integer) item);
+                    }
+                }
+                layer.setData(data);
+            } else {
+                // Handle the case where data is not a List<Integer>
+                // Depending on your application logic, you may want to log this as an error or
+                // handle it accordingly.
+                // For demonstration purposes, we'll just log a warning here.
+                System.out.println("Warning: 'data' is not a List<Integer>.");
+            }
+
+            layers.add(layer);
+        }
+        mapData.setLayers(layers);
+
+        // Extract tilesets
+        List<Map<String, Object>> tilesetsMapList = (List<Map<String, Object>>) mapDataMap.get("tilesets");
+        List<Tileset> tilesets = new ArrayList<>();
+        for (Map<String, Object> tilesetMap : tilesetsMapList) {
+            Tileset tileset = new Tileset();
+            tileset.setColumns((int) tilesetMap.get("columns"));
+            tileset.setFirstgid((int) tilesetMap.get("firstgid"));
+            tileset.setImage((String) tilesetMap.get("image"));
+            tileset.setImageheight((int) tilesetMap.get("imageheight"));
+            tileset.setImagewidth((int) tilesetMap.get("imagewidth"));
+            tileset.setMargin((int) tilesetMap.get("margin"));
+            tileset.setName((String) tilesetMap.get("name"));
+            tileset.setSpacing((int) tilesetMap.get("spacing"));
+            tileset.setTilecount((int) tilesetMap.get("tilecount"));
+            tileset.setTileheight((int) tilesetMap.get("tileheight"));
+            tileset.setTilewidth((int) tilesetMap.get("tilewidth"));
+            tilesets.add(tileset);
+        }
+        mapData.setTilesets(tilesets);
+
+        // Call personDetailsService to set the mapData
+        personDetailsService.setMapData(email, mapData);
+
+        return new ResponseEntity<>("MapData updated successfully for person with email: " + email, HttpStatus.OK);
+    }
+
+    @GetMapping("/getMapData/{email}")
+    public ResponseEntity<MapData> getMapData(@PathVariable String email) {
+        MapData mapData = personDetailsService.getMapData(email);
+        if (mapData != null) {
+            return new ResponseEntity<>(mapData, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class MapData {
     private boolean nonNull;
     private int compressionlevel;
@@ -23,26 +25,6 @@ public class MapData {
     private String type;
     private String version;
     private int width;
-
-    public MapData() {
-        // Setting all values to either null
-        this.nonNull = false;
-        this.compressionlevel = 0;
-        this.height = 0;
-        this.infinite = false;
-        this.layers = new ArrayList<>();
-        this.nextlayerid = 0;
-        this.nextobjectid = 0;
-        this.orientation = "";
-        this.renderorder = "";
-        this.tiledversion = "";
-        this.tileheight = 0;
-        this.tilesets = new ArrayList<>();
-        this.tilewidth = 0;
-        this.type = "";
-        this.version = "";
-        this.width = 0;
-    }
 
     public MapData(int compressionlevel, int height, boolean infinite, List<Layer> layers, int nextlayerid,
             int nextobjectid, String orientation, String renderorder, String tiledversion, int tileheight,
@@ -219,6 +201,7 @@ public class MapData {
         return nonNull;
     }
 
+    @NoArgsConstructor
     public static class Layer {
         private List<Integer> data;
         private int height;
@@ -343,6 +326,7 @@ public class MapData {
         }
     }
 
+    @NoArgsConstructor
     public static class Tileset {
         private int columns;
         private int firstgid;
