@@ -137,6 +137,25 @@ public class PersonDetailsService implements UserDetailsService { // "implements
         }
     }
 
+    public void setMapData(String email, MapData mapData) {
+        Person person = personJpaRepository.findByEmail(email);
+        if (person != null) {
+            person.setMapData(mapData);
+            personJpaRepository.save(person);
+        }
+    }
+
+    public MapData getMapData(String email) {
+        Person person = personJpaRepository.findByEmail(email);
+        if (person != null) {
+            MapData map = person.getMapData();
+            if (map.isNonNull()) {
+                return map;
+            }
+        }
+        return null;
+    }
+
     public int getEco(long id) {
         Person person = get(id);
         if (person != null) {
