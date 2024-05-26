@@ -257,80 +257,63 @@ public class PersonApiController {
         // Extract mapData from the requestBody
         Map<String, Object> mapDataMap = (Map<String, Object>) requestBody.get("mapData");
 
-        // Create MapData object from mapDataMap
-        MapData mapData = new MapData();
-        mapData.setCompressionlevel((int) mapDataMap.get("compressionlevel"));
-        mapData.setHeight((int) mapDataMap.get("height"));
-        mapData.setInfinite((boolean) mapDataMap.get("infinite"));
-        mapData.setNextlayerid((int) mapDataMap.get("nextlayerid"));
-        mapData.setNextobjectid((int) mapDataMap.get("nextobjectid"));
-        mapData.setOrientation((String) mapDataMap.get("orientation"));
-        mapData.setRenderorder((String) mapDataMap.get("renderorder"));
-        mapData.setTiledversion((String) mapDataMap.get("tiledversion"));
-        mapData.setTileheight((int) mapDataMap.get("tileheight"));
-        mapData.setTilewidth((int) mapDataMap.get("tilewidth"));
-        mapData.setType((String) mapDataMap.get("type"));
-        mapData.setVersion((String) mapDataMap.get("version"));
-        mapData.setWidth((int) mapDataMap.get("width"));
-
         // Extract layers
         List<Map<String, Object>> layersMapList = (List<Map<String, Object>>) mapDataMap.get("layers");
         List<Layer> layers = new ArrayList<>();
         for (Map<String, Object> layerMap : layersMapList) {
-            Layer layer = new Layer();
-            layer.setHeight((int) layerMap.get("height"));
-            layer.setId((int) layerMap.get("id"));
-            layer.setName((String) layerMap.get("name"));
-            layer.setOpacity((double) layerMap.get("opacity"));
-            layer.setType((String) layerMap.get("type"));
-            layer.setVisible((boolean) layerMap.get("visible"));
-            layer.setWidth((int) layerMap.get("width"));
-            layer.setX((int) layerMap.get("x"));
-            layer.setY((int) layerMap.get("y"));
-
             // Ensure data is correctly casted to List<Integer>
             Object dataObj = layerMap.get("data");
+            List<Integer> data = new ArrayList<>();
             if (dataObj instanceof List) {
                 // Safe cast to List<Integer>
                 List<?> dataList = (List<?>) dataObj;
-                List<Integer> data = new ArrayList<>();
                 for (Object item : dataList) {
                     if (item instanceof Integer) {
                         data.add((Integer) item);
                     }
                 }
-                layer.setData(data);
             } else {
-                // Handle the case where data is not a List<Integer>
-                // Depending on your application logic, you may want to log this as an error or
-                // handle it accordingly.
-                // For demonstration purposes, we'll just log a warning here.
+                // Handle the case where data is not a List<Integer> Will break rendering btw
                 System.out.println("Warning: 'data' is not a List<Integer>.");
             }
 
+            Layer layer = new Layer(data, (int) layerMap.get("height"), (int) layerMap.get("id"),
+                    (String) layerMap.get("name"), (double) layerMap.get("opacity"), (String) layerMap.get("type"),
+                    (boolean) layerMap.get("visible"), (int) layerMap.get("width"), (int) layerMap.get("x"),
+                    (int) layerMap.get("y"));
             layers.add(layer);
         }
-        mapData.setLayers(layers);
 
         // Extract tilesets
         List<Map<String, Object>> tilesetsMapList = (List<Map<String, Object>>) mapDataMap.get("tilesets");
         List<Tileset> tilesets = new ArrayList<>();
         for (Map<String, Object> tilesetMap : tilesetsMapList) {
-            Tileset tileset = new Tileset();
-            tileset.setColumns((int) tilesetMap.get("columns"));
-            tileset.setFirstgid((int) tilesetMap.get("firstgid"));
-            tileset.setImage((String) tilesetMap.get("image"));
-            tileset.setImageheight((int) tilesetMap.get("imageheight"));
-            tileset.setImagewidth((int) tilesetMap.get("imagewidth"));
-            tileset.setMargin((int) tilesetMap.get("margin"));
-            tileset.setName((String) tilesetMap.get("name"));
-            tileset.setSpacing((int) tilesetMap.get("spacing"));
-            tileset.setTilecount((int) tilesetMap.get("tilecount"));
-            tileset.setTileheight((int) tilesetMap.get("tileheight"));
-            tileset.setTilewidth((int) tilesetMap.get("tilewidth"));
+            Tileset tileset = new Tileset((int) tilesetMap.get("columns"), (int) tilesetMap.get("firstgid"),
+                    (String) tilesetMap.get("image"), (int) tilesetMap.get("imageheight"),
+                    (int) tilesetMap.get("imagewidth"),
+                    (int) tilesetMap.get("margin"), (String) tilesetMap.get("name"), (int) tilesetMap.get("spacing"),
+                    (int) tilesetMap.get("tilecount"), (int) tilesetMap.get("tileheight"),
+                    (int) tilesetMap.get("tilewidth"));
             tilesets.add(tileset);
         }
-        mapData.setTilesets(tilesets);
+
+        // Create MapData object from mapDataMap
+        MapData mapData = new MapData(
+                (int) mapDataMap.get("compressionlevel"),
+                (int) mapDataMap.get("height"),
+                (boolean) mapDataMap.get("infinite"),
+                layers,
+                (int) mapDataMap.get("nextlayerid"),
+                (int) mapDataMap.get("nextobjectid"),
+                (String) mapDataMap.get("orientation"),
+                (String) mapDataMap.get("renderorder"),
+                (String) mapDataMap.get("tiledversion"),
+                (int) mapDataMap.get("tileheight"),
+                tilesets,
+                (int) mapDataMap.get("tilewidth"),
+                (String) mapDataMap.get("type"),
+                (String) mapDataMap.get("version"),
+                (int) mapDataMap.get("width"));
 
         // Call personDetailsService to set the mapData
         personDetailsService.setMapData(email, mapData);
@@ -339,10 +322,12 @@ public class PersonApiController {
     }
 
     @GetMapping("/getMapData/{email}")
-    public ResponseEntity<MapData> getMapData(@PathVariable String email) {
+    public ResponseEntity<String> getMapData(@PathVariable String email) {
+        System.out.println(email);
         MapData mapData = personDetailsService.getMapData(email);
         if (mapData != null) {
-            return new ResponseEntity<>(mapData, HttpStatus.OK);
+            System.out.println(mapData);
+            return new ResponseEntity<>(mapData.toJson().toString(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

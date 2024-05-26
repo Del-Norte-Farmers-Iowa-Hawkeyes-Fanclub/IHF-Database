@@ -148,11 +148,10 @@ public class PersonDetailsService implements UserDetailsService { // "implements
     public MapData getMapData(String email) {
         Person person = personJpaRepository.findByEmail(email);
         if (person != null) {
-            if (person.getMapData().isNonNull()) {
-                return person.getMapData();
-
+            MapData map = person.getMapData();
+            if (map.isNonNull()) {
+                return map;
             }
-            ;
         }
         return null;
     }
