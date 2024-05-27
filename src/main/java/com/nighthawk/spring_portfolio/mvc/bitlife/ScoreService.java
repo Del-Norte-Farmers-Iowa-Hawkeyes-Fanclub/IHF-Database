@@ -7,27 +7,15 @@ import java.util.List;
 
 @Service
 public class ScoreService {
+
     @Autowired
     private ScoreRepository scoreRepository;
 
-    public Score saveOrUpdateScore(String playerName, int score) {
-        Score existingScore = scoreRepository.findByPlayerName(playerName);
-        if (existingScore != null) {
-            if (existingScore.getScore() < score) {
-                existingScore.setScore(score);
-                return scoreRepository.save(existingScore);
-            } else {
-                return existingScore;
-            }
-        } else {
-            Score newScore = new Score();
-            newScore.setPlayerName(playerName);
-            newScore.setScore(score);
-            return scoreRepository.save(newScore);
-        }
+    public Score createScore(Score score) {
+        return scoreRepository.save(score);
     }
 
-    public List<Score> getTopScores() {
-        return scoreRepository.findTop10ByOrderByScoreDesc();
+    public List<Score> getTopScores(String type) {
+        return scoreRepository.findTop10ByTypeOrderByScoreDesc(type);
     }
 }

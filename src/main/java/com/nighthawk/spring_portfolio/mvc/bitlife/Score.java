@@ -12,6 +12,7 @@ public class Score {
     private Long id;
     private String playerName;
     private int score;
+    private String type; // "basketball" or "farmer"
 
     // Getters and Setters
     public Long getId() {
@@ -36,5 +37,13 @@ public class Score {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

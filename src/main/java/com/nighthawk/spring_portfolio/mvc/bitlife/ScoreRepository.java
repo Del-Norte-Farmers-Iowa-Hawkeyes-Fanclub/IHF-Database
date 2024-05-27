@@ -7,6 +7,5 @@ import java.util.List;
 
 @Repository
 public interface ScoreRepository extends JpaRepository<Score, Long> {
-    List<Score> findTop10ByOrderByScoreDesc();
-    Score findByPlayerName(String playerName);
+    List<Score> findTop10ByTypeOrderByScoreDesc(String type);
 }

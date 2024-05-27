@@ -8,16 +8,22 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/bitlife/scores")
 public class ScoreController {
+
     @Autowired
     private ScoreService scoreService;
 
     @PostMapping
-    public Score saveOrUpdateScore(@RequestBody Score score) {
-        return scoreService.saveOrUpdateScore(score.getPlayerName(), score.getScore());
+    public Score createScore(@RequestBody Score score) {
+        return scoreService.createScore(score);
     }
 
-    @GetMapping
-    public List<Score> getTopScores() {
-        return scoreService.getTopScores();
+    @GetMapping("/basketball")
+    public List<Score> getTopBasketballScores() {
+        return scoreService.getTopScores("basketball");
+    }
+
+    @GetMapping("/farmer")
+    public List<Score> getTopFarmerScores() {
+        return scoreService.getTopScores("farmer");
     }
 }
