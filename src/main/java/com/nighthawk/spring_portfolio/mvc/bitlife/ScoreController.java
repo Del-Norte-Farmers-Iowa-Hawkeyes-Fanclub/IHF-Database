@@ -22,8 +22,8 @@ public class ScoreController {
         return scoreService.getTopScores("basketball");
     }
 
-    @GetMapping("/farmer")
+    @GetMapping("/farming")
     public List<Score> getTopFarmerScores() {
-        return scoreService.getTopScores("farmer");
+        return scoreService.getTopScores("farming");
     }
 }
