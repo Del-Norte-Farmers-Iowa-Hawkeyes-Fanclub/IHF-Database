@@ -13,8 +13,8 @@ public class ScoreController {
     private ScoreService scoreService;
 
     @PostMapping
-    public Score createScore(@RequestBody Score score) {
-        return scoreService.createScore(score);
+    public Score createOrUpdateScore(@RequestBody Score score) {
+        return scoreService.createOrUpdateScore(score);
     }
 
     @GetMapping("/basketball")
