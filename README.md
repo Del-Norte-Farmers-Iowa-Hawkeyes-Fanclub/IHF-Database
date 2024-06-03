@@ -9,6 +9,7 @@
 
 
 
+
 ## Visual thoughts
 
 - Starter code should be fun and practical
